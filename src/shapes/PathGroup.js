@@ -1,4 +1,5 @@
 import { fabric } from "fabric";
+import roundPathCorners from './rounding.js'
 export function starPolygonPoints(canvas,spikeCount, outerRadius, innerRadius) {
     var rot = (Math.PI / 2) * 3;
     var cx = outerRadius;
@@ -13,26 +14,27 @@ export function starPolygonPoints(canvas,spikeCount, outerRadius, innerRadius) {
     for (var i = 0; i < spikeCount; i++) {
         var x = (cx + Math.cos(angle) * outerRadius);
         var y = cy + Math.sin(angle) * outerRadius;
-        // line = makeLine([x2, y2, x, y]);
-        // lines.push(line);
+        line = makeLine([x2, y2, x, y]);
+        lines.push(line);
         angle += sweep;
-        var path = new fabric.Path(`M ${x} ${y} q 1 0 50 ${angle}`, {fill: '', strokeWidth: 3, stroke: 'red'});
-        canvas.add(path);
+        console.log(angle);
+        // var path = new fabric.Path(`M ${x} ${y} c 1 0 50 0}`, {fill: '', strokeWidth: 3, stroke: 'red'});
+        // canvas.add(path);
         var x2 = cx + Math.cos(angle) * innerRadius;
         var y2 = cy + Math.sin(angle) * innerRadius;
-        // line = makeLine([x, y, x2, y2]);
-        // lines.push(line);
-        // if(i == 0){
-        //     FX = x;
-        //     FY = y;
-        // }
-        // if(i == (spikeCount - 1)){
-        //     line = makeLine([x2, y2, FX, FY]);
-        //     lines.push(line);
-        //     }
+        line = makeLine([x, y, x2, y2]);
+        lines.push(line);
+        if(i == 0){
+            FX = x;
+            FY = y;
+        }
+        if(i == (spikeCount - 1)){
+            line = makeLine([x2, y2, FX, FY]);
+            lines.push(line);
+            }
         angle += sweep;
-        var path2 = new fabric.Path(`M ${x2} ${y2} q 1 0 50 ${angle}`, {fill: '', strokeWidth: 3, stroke: 'red'});
-        canvas.add(path2);
+        // var path2 = new fabric.Path(`M ${x2} ${y2} q 1 0 50 0}`, {fill: '', strokeWidth: 3, stroke: 'red'});
+        // canvas.add(path2);
     }
     return lines;
 }
@@ -49,12 +51,22 @@ function makeLine(coords) {
 export default function drawStarPolygon(canvas, fill, strokeWidth, stroke, cornerColor) {
     // make a star
 
-    var lines = starPolygonPoints(canvas,5, 150, 130);
+    // var lines = starPolygonPoints(canvas,5, 50, 30);
+    // console.log(lines);
     // canvas.add(...lines);
-
-    // const path = new fabric.Path("M 250 250 q 1 0 50 90", {fill: '', strokeWidth: 3, stroke: 'red'});
-    // canvas.add(path);
-
+    // var canvas = new fabric.StaticCanvas('c');
+    // var path = "M 0 0 L 400 0 L400 200 L 0 200 Z";
+    var path = "M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118l11.547-1.2L16.026,0.6L20.388,10.918z";
+    var newpath = roundPathCorners(path,30,false);
+    console.log(newpath);
+    var path = new fabric.Path(path, {
+        left: 100,
+        top: 100,
+        stroke: 'red',
+        strokeWidth: 1,
+        fill: false
+    });
+    canvas.add(path);
     // var polygon = new fabric.Polygon(lines, 
     //     {
     //     left: 600,
