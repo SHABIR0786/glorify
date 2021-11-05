@@ -1,7 +1,6 @@
 import Vue from "vue";
 import { fabric } from "fabric";
-// import drawStarPolygon from "../shapes/StartPolygon"
-import drawStarPolygon from "../shapes/PathGroup"
+import drawStarPolygon from "../shapes/StartPolygon"
 
 import Edit from "./Edit";
 export const CanvasManager = new Vue({

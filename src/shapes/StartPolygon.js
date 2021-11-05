@@ -1,7 +1,5 @@
 import { fabric } from "fabric";
-export function starPolygonPoints(canvas, spikeCount, outerRadius, innerRadius) {
-    canvas = document.querySelectorAll('canvas')[0];
-    var ctx = canvas.getContext('2d');
+export function starPolygonPoints(spikeCount, outerRadius, innerRadius) {
     var rot = (Math.PI / 2) * 3;
     var cx = outerRadius;
     var cy = outerRadius;
@@ -10,29 +8,23 @@ export function starPolygonPoints(canvas, spikeCount, outerRadius, innerRadius) 
     var angle = 60;
 
     for (var i = 0; i < spikeCount; i++) {
-        var x = (cx + Math.cos(angle) * outerRadius);
+        var x = cx + Math.cos(angle) * outerRadius;
         var y = cy + Math.sin(angle) * outerRadius;
-        points.push({ x: x, y: y });
+        points.push({x: x, y: y});
         angle += sweep;
-        var x2 = cx + Math.cos(angle) * innerRadius;
-        var y2 = cy + Math.sin(angle) * innerRadius;
-        points.push({ x: x2, y: y2 });
-        angle += sweep;
-        console.log(ctx);
-        ctx.beginPath();
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 5;
-        ctx.moveTo(200, 20);
-        ctx.arcTo(200, 130, 50, 20, 40);
-        ctx.stroke();
-    }
+    
+        x = cx + Math.cos(angle) * innerRadius;
+        y = cy + Math.sin(angle) * innerRadius;
+        points.push({x: x, y: y});
+        angle += sweep
+      }
 
     return points;
 }
 
 export default function drawStarPolygon(canvas, fill, strokeWidth, stroke, cornerColor) {
     // make a star
-    var points = starPolygonPoints(canvas, 5, 30, 20);
+    var points = starPolygonPoints(5, 30, 20);
     var polygon = new fabric.Polygon(points,
         {
             left: 600,
